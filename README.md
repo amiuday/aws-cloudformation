@@ -16,3 +16,50 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 sudo apt install unzip
 unzip awscliv2.zip
 sudo ./aws/install
+
+
+# Docker Installation 
+For Amazon Linux 2
+sudo yum install docker -y
+
+(If Amazon Linux 2023)
+sudo dnf install docker -y
+
+🔹 Step 4: Start Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+Check status:
+
+sudo systemctl status docker
+
+
+You should see active (running) ✅
+🔹 Step 5: Allow ec2-user to run Docker (IMPORTANT)
+
+Without this, you’ll need sudo every time.
+
+sudo usermod -aG docker ec2-user
+
+
+⚠️ Logout and login again
+
+exit
+
+
+Reconnect via SSH.
+🔹 Step 6: Verify Docker installation
+docker --version
+
+
+Then run:
+
+docker run hello-world
+
+Expected output:
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+🎉 If you see this → Docker is READY.
