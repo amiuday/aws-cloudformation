@@ -24,3 +24,5 @@ jobs:
             --template-body file://templates/web-stack.yaml \
             --parameters file://params/dev.json \
             --capabilities CAPABILITY_NAMED_IAM
+
+
