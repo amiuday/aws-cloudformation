@@ -12,7 +12,7 @@ Resources:
   MyVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.0.0.0/24
+      CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
 
@@ -31,7 +31,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref MyVPC
-      CidrBlock: 10.0.1.0/26
+      CidrBlock: 10.0.1.0/24
       MapPublicIpOnLaunch: true
 
   ### Route Table ###
