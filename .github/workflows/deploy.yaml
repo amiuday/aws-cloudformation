@@ -1,0 +1,26 @@
+name: Deploy CloudFormation Stack
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: 078237422926
+    steps:
+      - uses: actions/checkout@v4
+
+
+      - name: Update CloudFormation stack
+        shell: bash
+        run: |
+          STACK_NAME="dashen-app-stack"
+          REGION="eu-north-1"
+
+          aws cloudformation create-change-set \
+            --stack-name $STACK_NAME \
+            --region $REGION \
+            --change-set-type CREATE \
+            --template-body file://templates/web-stack.yaml \
+            --parameters file://params/dev.json
