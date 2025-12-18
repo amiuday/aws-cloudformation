@@ -18,7 +18,7 @@ jobs:
           STACK_NAME="dashen-app-stack"
           REGION="eu-north-1"
 
-          aws cloudformation update-stack \
+          aws cloudformation create-stack \
             --stack-name $STACK_NAME \
             --region $REGION \
             --template-body file://templates/web-stack.yaml \
