@@ -22,5 +22,5 @@ jobs:
             --stack-name $STACK_NAME \
             --region $REGION \
             --template-body file://templates/web-stack.yaml \
-            --parameters file://params/dev.json
+            --parameters file://params/dev.json \
             --capabilities CAPABILITY_NAMED_IAM
