@@ -94,5 +94,7 @@ Resources:
           Value: prometheus-monitoring
         - Key: Monitor
           Value: true
+        - Key: instance
+          Value: prometheus-ec2
 
 
