@@ -15,7 +15,7 @@ jobs:
       - name: Update CloudFormation stack
         shell: bash
         run: |
-          STACK_NAME="promotheus-monitoring-stack"
+          STACK_NAME="dashen-app-stack"
           REGION="eu-north-1"
 
           aws cloudformation update-stack \
