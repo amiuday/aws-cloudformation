@@ -28,6 +28,23 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+  PrometheusDiscoveryPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: prometheus-ec2-discovery
+      Roles:
+        - !Ref PrometheusEC2Role
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - ec2:DescribeInstances
+              - ec2:DescribeRegions
+              - ec2:DescribeAvailabilityZones
+              - ec2:DescribeTags
+            Resource: "*"
+
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -75,5 +92,7 @@ Resources:
       Tags:
         - Key: Name
           Value: prometheus-monitoring
+        - Key: Monitor
+          Value: true
 
 
