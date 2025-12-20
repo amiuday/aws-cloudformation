@@ -21,7 +21,7 @@ jobs:
           aws cloudformation create-stack \
             --stack-name $STACK_NAME \
             --region $REGION \
-            --template-body file://promotheus-stack/templates/web-stack.yaml \
+            --template-body file://promotheus-stack/templates/prometheus-monitoring.yaml \
             --parameters file://promotheus-stack/params/dev.json \
             --capabilities CAPABILITY_NAMED_IAM
 
