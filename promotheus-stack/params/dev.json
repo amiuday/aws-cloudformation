@@ -1,0 +1,15 @@
+[
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-0a1ac88a42b7a8556"
+  },
+  {
+    "ParameterKey": "SubnetId",
+    "ParameterValue": "subnet-015263b31033c662c"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "GitHubRunner"
+  }
+]
+

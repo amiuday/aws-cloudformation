@@ -15,14 +15,14 @@ jobs:
       - name: Update CloudFormation stack
         shell: bash
         run: |
-          STACK_NAME="dashen-app-stack"
+          STACK_NAME="promotheus-monitoring-stack"
           REGION="eu-north-1"
 
-          aws cloudformation update-stack \
+          aws cloudformation create-stack \
             --stack-name $STACK_NAME \
             --region $REGION \
-            --template-body file://templates/web-stack.yaml \
-            --parameters file://params/dev.json \
+            --template-body file://promotheus-stack/templates/web-stack.yaml \
+            --parameters file://promotheus-stack/params/dev.json \
             --capabilities CAPABILITY_NAMED_IAM
 
 
