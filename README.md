@@ -216,3 +216,162 @@ Use this when:
 One core is overloaded
 
 Others are idle
+
+
+======================================================================
+
+STEP 1️⃣ Tag your EC2 instances (VERY IMPORTANT)
+
+On ALL EC2s you want to monitor (including Prometheus EC2 if you want):
+
+Add these tags:
+
+Key: Monitor
+Value: true
+
+
+Optional (recommended):
+
+Key: Name
+Value: app-server-1
+
+
+👉 You can add via:
+
+EC2 Console → Tags
+
+Or CloudFormation
+
+STEP 2️⃣ Update IAM Role (CRITICAL)
+
+Prometheus needs permission to read EC2 metadata.
+
+Attach this policy to PrometheusEC2Role
+  PrometheusDiscoveryPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: prometheus-ec2-discovery
+      Roles:
+        - !Ref PrometheusEC2Role
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - ec2:DescribeInstances
+              - ec2:DescribeRegions
+              - ec2:DescribeAvailabilityZones
+              - ec2:DescribeTags
+            Resource: "*"
+
+
+⚠️ Without this → auto-discovery will NOT work
+
+STEP 3️⃣ Update prometheus.yml (THIS IS THE MAGIC)
+
+Edit on Prometheus EC2:
+
+sudo vi /opt/prometheus-2.53.0.linux-amd64/prometheus.yml
+
+✅ EC2 Auto-Discovery Config (PRODUCTION READY)
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "ec2-nodes"
+
+    ec2_sd_configs:
+      - region: eu-north-1
+        port: 9100
+
+    relabel_configs:
+      # Keep only instances with tag Monitor=true
+      - source_labels: [__meta_ec2_tag_Monitor]
+        regex: true
+        action: keep
+
+      # Set instance name from EC2 Name tag
+      - source_labels: [__meta_ec2_tag_Name]
+        target_label: instance
+
+
+🔥 This replaces ALL static IPs.
+
+STEP 4️⃣ Reload Prometheus
+sudo systemctl reload prometheus
+
+
+(or restart if reload fails)
+
+sudo systemctl restart prometheus
+
+STEP 5️⃣ Verify (THIS IS THE PROOF)
+Prometheus UI
+http://<PROMETHEUS-IP>:9090
+
+
+Go to:
+➡ Status → Targets
+
+You should see:
+
+EC2s discovered automatically
+
+Instance names from tags
+
+State = 🟢 UP
+
+STEP 6️⃣ Verify with PromQL
+up
+
+
+You should see:
+
+up{instance="app-server-1"} 1
+up{instance="prometheus-monitoring"} 1
+
+
+👏 NO IPs anywhere!
+
+🔐 Security Group Reminder (IMPORTANT)
+
+App EC2 SG:
+
+Inbound 9100
+
+Source: Monitoring SG
+
+Prometheus SG:
+
+Outbound allowed
+
+Without this → target = DOWN
+
+🏆 Interview Gold (memorize this)
+
+“We use Prometheus EC2 service discovery with tag-based filtering, avoiding static IPs and enabling dynamic scaling.”
+
+If interviewer smiles → you’re winning 😄
+
+🔥 Bonus: Test Auto-Discovery (DO THIS)
+
+1️⃣ Launch a new EC2
+2️⃣ Install Node Exporter
+3️⃣ Add tag:
+
+Monitor=true
+
+
+4️⃣ Wait 15–30 seconds
+5️⃣ Prometheus → Targets → EC2 appears automatically
+
+💥 That’s real DevOps.
+
+NEXT LEVEL OPTIONS (choose one)
+
+1️⃣ Alerts on EC2 down / CPU high
+2️⃣ Grafana dashboards using tag-based instance names
+3️⃣ Monitor applications (Node / PHP / Nginx)
+4️⃣ Production hardening (TLS, auth, no public ports)
+
+Say the number buddy — you’re officially Prometheus-ready 🚀
