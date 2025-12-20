@@ -102,6 +102,13 @@ Resources:
       IamInstanceProfile: !Ref EC2InstanceProfile
       ImageId: ami-0b46816ffa1234887 # Amazon Linux 2 (update per region)
       
+      Tags:
+        - Key: Name
+          Value: Dashen-App
+        - Key: instance
+          Value: dashen-app
+        - Key: Monitor
+          Value: true
 Outputs:
   WebsiteURL:
     Value: !Sub "http://${WebInstance.PublicDnsName}"

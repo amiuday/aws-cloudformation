@@ -21,8 +21,8 @@ jobs:
           aws cloudformation update-stack \
             --stack-name $STACK_NAME \
             --region $REGION \
-            --template-body file://promotheus-stack/templates/prometheus-monitoring.yaml \
-            --parameters file://promotheus-stack/params/dev.json \
+            --template-body file://templates/prometheus-monitoring.yaml \
+            --parameters file://params/dev.json \
             --capabilities CAPABILITY_NAMED_IAM
 
 
