@@ -65,7 +65,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t3.micro
-      ImageId: ami-0c7c4e3c6b4941f0f # Amazon Linux 2023 (eu-north-1)
+      ImageId: ami-0b46816ffa1234887 # Amazon Linux 2023 (eu-north-1)
       KeyName: !Ref KeyName
       SubnetId: !Ref SubnetId
       SecurityGroupIds:
