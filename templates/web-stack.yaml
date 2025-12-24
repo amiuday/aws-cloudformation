@@ -109,6 +109,19 @@ Resources:
           Value: dashen-app
         - Key: Monitor
           Value: true
+  ExtraEBSVolume:
+    Type: AWS::EC2::Volume
+    Properties:
+      AvailabilityZone: !GetAtt WebInstance.AvailabilityZone
+      Size: 50
+      VolumeType: gp3
+      Encrypted: true
+  ExtraVolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref WebInstance
+      VolumeId: !Ref ExtraEBSVolume
+      Device: /dev/xvdf
 Outputs:
   WebsiteURL:
     Value: !Sub "http://${WebInstance.PublicDnsName}"
